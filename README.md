@@ -1,60 +1,29 @@
 # 102.-Binary-Tree-Level-Order-Traversal
 
 
-`````c#
-Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+`````py
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        q = collections.deque()
+        q.append(root)
+        ans = []
 
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     public int val;
- *     public TreeNode left;
- *     public TreeNode right;
- *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-public class Solution {
-     
-    
-    
-    public IList<IList<int>> LevelOrder(TreeNode root) {
-         
-        var result = new List<IList<int>>();
-        if(root == null) return result;
-        
-        var queue = new Queue<TreeNode>();
-        queue.Enqueue(root);
-        
-        while(queue.Any()){ // any is better for performance 
-            
-            var size = queue.Count;
-            
-            var oneResult = new List<int>();
-            
-            for(int i=0; i< size; i++){
-                
-                var cur = queue.Dequeue();
-                oneResult.Add(cur.val);
-                
-                if(cur.left != null){
-                    queue.Enqueue(cur.left);
-                }
-                
-                if(cur.right != null){
-                    queue.Enqueue(cur.right);
-                }
-            }
-            
-            result.Add(oneResult);
-        }
-        
-        return result;
-    
-    } 
-}
+        while q:
+            temp = [] # for each level, it will add new temp list and update in ans
+            for i in range(len(q)):
+                cur = q.popleft()
+                if cur:
+                    temp.append(cur.val)
+                    q.append(cur.left)
+                    q.append(cur.right)
+            if temp:
+                ans.append(temp)
+        return ans 
 
 `````
